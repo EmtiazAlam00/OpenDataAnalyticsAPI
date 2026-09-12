@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.py[cod]
+.git/
+.env
+.DS_Store
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+# Bind-mounted at runtime; baking it into the image would double the disk cost.
+data/
+tests/

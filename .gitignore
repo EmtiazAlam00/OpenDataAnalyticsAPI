@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.DS_Store
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+dist/
+build/
+
+# The quarterly source files are redistributable under the OGL, but they are
+# large and reproducible from the open.canada.ca portal. Keep the directory,
+# not its contents.
+data/raw/*
+!data/raw/.gitkeep

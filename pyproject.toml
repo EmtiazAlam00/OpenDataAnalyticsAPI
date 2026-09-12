@@ -1,0 +1,67 @@
+[project]
+name = "tfwp-api"
+version = "0.1.0"
+description = "Ingestion pipeline and read API over the Government of Canada TFWP Positive LMIA Employers List"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "sqlalchemy>=2.0.36",
+    "psycopg[binary]>=3.2",
+    "alembic>=1.14",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+    "pandas>=2.2",
+    # .xlsx is openpyxl's; the old binary .xls is xlrd's. xlrd 2.x dropped
+    # everything except .xls, so the two are complements, not alternatives.
+    "openpyxl>=3.1",
+    "xlrd>=2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+    "httpx>=0.28",
+    "ruff>=0.8",
+    "mypy>=1.13",
+    "pandas-stubs>=2.2",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app", "ingest"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "integration: requires a running Postgres",
+    "fixtures: runs against the real files in data/raw/",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "S", "C4", "SIM"]
+ignore = [
+    "S101",  # assert is fine in tests
+    "B008",  # FastAPI Depends() in defaults is the documented idiom
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S105", "S106", "S311"]
+"scripts/**" = ["S105", "S106", "S311"]
+# Alembic writes these; reformatting them would obscure the diff against a
+# regenerated migration.
+"alembic/versions/*" = ["E501"]
+
+[tool.mypy]
+python_version = "3.12"
+plugins = ["pydantic.mypy"]
+ignore_missing_imports = true
+disallow_untyped_defs = false
+warn_unused_ignores = true
