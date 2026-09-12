@@ -1,4 +1,4 @@
-# TFWP Data API
+# TFWP Open Data API
 
 A queryable API over the Government of Canada **Temporary Foreign Worker Program —
 Positive LMIA Employers List**: quarterly spreadsheets formatted for human readers,
